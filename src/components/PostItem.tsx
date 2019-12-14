@@ -18,7 +18,7 @@ const Container = styled.View`
 const PostName = styled(MediumText)`
     flex:1
     margin-right: 20px
-    margin-left: 10px
+    margin-left: ${props => props.marginLeft ? props.marginLeft : 0}
    
 `
 const PostBody = styled(ExtraSmallText)`
@@ -71,7 +71,7 @@ class PostItem extends React.Component<Props> {
                     <TitleContainer>
                         <CircleContainer>
                          { item.pinned &&  <Circle />}
-                            <PostName numberOfLines={1}>{`${item.title}`}</PostName>
+                            <PostName marginLeft={item.pinned ? 10 : 0} numberOfLines={1}>{`${item.title}`}</PostName>
                         </CircleContainer>
                         <PostId>{`ID: ${item.id}`}</PostId>
                     </TitleContainer>
