@@ -14,6 +14,7 @@ import styled from 'styled-components/native'
 import { posts } from '../actions/posts';
 import { getPosts } from '../reducers';
 import PostItem from '../components/PostItem';
+import { NavigationScreenProp, NavigationState } from 'react-navigation';
 
 const LogIn = styled(ButtonBase)`
     margin-top: 15px;
@@ -26,7 +27,7 @@ const List = styled(FlatList).attrs({
     contentContainerStyle: {
         flexGrow: 1,
         marginTop: 16,
-       
+
     }
 })`
 `
@@ -34,7 +35,8 @@ const List = styled(FlatList).attrs({
 export interface MainProps {
     submitError: FormErrors<FormData, string>,
     postsList: Posts[],
-    getPosts: () => any
+    getPosts: () => any,
+    navigation: NavigationScreenProp<NavigationState>,
 };
 
 export interface MainForm {
@@ -44,8 +46,14 @@ export interface MainForm {
 class Main extends React.Component<InjectedFormProps<MainForm, MainProps> & MainProps> {
 
     componentDidMount() {
-        const { handleSubmit, getPosts } = this.props
-        handleSubmit(getPosts())
+        const { handleSubmit, getPosts, postsList } = this.props
+        if (postsList.length === 0) {
+            handleSubmit(getPosts())
+        }
+    }
+
+    onSelect = (item: Posts) => {
+        this.props.navigation.navigate("select_screen", { post: item })
     }
 
     render() {
@@ -53,25 +61,38 @@ class Main extends React.Component<InjectedFormProps<MainForm, MainProps> & Main
 
         return (
             <SafeView>
-                    <TouchableOpacity>
-                        <LogIn>
-                            <LogInText>{"RESET"}</LogInText>
-                        </LogIn>
-                    </TouchableOpacity>
-                    <List
-                        data={postsList}
-                        keyExtractor={(_item, index) => `${index}`}
-                        renderItem={({ item, index }: { item: Posts, index: number }) =>
-                            <PostItem
-                                item={item}
-                            />} />
+                <TouchableOpacity>
+                    <LogIn>
+                        <LogInText>{"RESET"}</LogInText>
+                    </LogIn>
+                </TouchableOpacity>
+                <List
+                    data={postsList}
+                    keyExtractor={(_item, index) => `${index}`}
+                    renderItem={({ item, index }: { item: Posts, index: number }) =>
+                        <PostItem
+                            onSelect={this.onSelect}
+                            item={item}
+                        />} />
             </SafeView>
         );
     }
 }
 
 const mapStateToProps = (state: State, ownProps: MainProps) => {
-    const postsList = getPosts(state)
+    const postsList = getPosts(state).sort((a, b) => {
+        if (a.pinned === b.pinned) {
+           return 0;
+        }
+     
+        if (a.pinned) {
+           return -1;
+        }
+     
+        if (b.pinned) {
+           return 1;
+        }
+     });
     return {
         postsList: postsList || [],
     }

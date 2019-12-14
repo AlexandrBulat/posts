@@ -3,4 +3,5 @@ export interface Posts {
     readonly id: number
     readonly title: string;
     readonly body: string;
+    readonly pinned: boolean
   }

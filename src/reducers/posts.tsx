@@ -5,6 +5,10 @@ import { combineReducers } from "redux";
 
 const ids = (state: string[] = [], action: ActionTypes): string[] => {
     switch (action.type) {
+        case TypeKeys.SET_PINNED:
+            const newState = state.find(id => id == action.id.toString())
+            return newState != undefined ? [...state] : [...state, action.id.toString()]
+
         case TypeKeys.POSTS_FULFILLED:
             const { posts } = action
             return posts.ids
@@ -15,6 +19,11 @@ const ids = (state: string[] = [], action: ActionTypes): string[] => {
 
 const byIds = (state: { [id: string]: Posts } = {}, action: ActionTypes): { [id: string]: Posts } => {
     switch (action.type) {
+        case TypeKeys.SET_PINNED:
+            return {
+                ...state,
+                [action.id]: { ...action.post, pinned: action.pinned }
+            }
         case TypeKeys.POSTS_FULFILLED:
             const { posts } = action
             return posts.byIds
