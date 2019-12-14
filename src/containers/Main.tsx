@@ -26,7 +26,7 @@ const List = styled(FlatList).attrs({
     contentContainerStyle: {
         flexGrow: 1,
         marginTop: 16,
-        backgroundColor: Theme.color.black
+       
     }
 })`
 `

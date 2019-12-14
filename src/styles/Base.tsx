@@ -6,7 +6,6 @@ import { Platform, SafeAreaView } from 'react-native';
 
 export const SafeView = styled(SafeAreaView)`
     flex: 1;
-    backgroundColor: black
 `
 
 export const ButtonBase = styled.View`
