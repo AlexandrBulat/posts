@@ -18,8 +18,10 @@ export interface SetPinnedAction extends Action {
     post: Posts
 }
 
+export interface ResetAction extends Action {
+    type: TypeKeys.RESET;
+}
 
-//Login
 export const posts = (): PostsAction => ({
     type: TypeKeys.POSTS,
 });
@@ -34,5 +36,9 @@ export const setPinned = (id: number, pinned: boolean, post: Posts): SetPinnedAc
     id,
     pinned,
     post
+});
+
+export const reset = (): ResetAction => ({
+    type: TypeKeys.RESET,
 });
 

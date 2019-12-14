@@ -1,7 +1,7 @@
 import {
     LoginAction, LoginFulfilledAction
 } from "./auth";
-import { PostsAction, PostsFulfilledAction, SetPinnedAction } from "./posts";
+import { PostsAction, PostsFulfilledAction, SetPinnedAction, ResetAction } from "./posts";
 
 export * from "./auth";
 
@@ -11,3 +11,4 @@ export type ActionTypes =
     | PostsAction
     | PostsFulfilledAction
     | SetPinnedAction
+    | ResetAction

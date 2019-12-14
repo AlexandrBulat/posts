@@ -11,7 +11,7 @@ import { ButtonBase, ButtonTextMedium, ScrollContainer, SafeView } from '../styl
 import { Dispatch } from 'redux';
 import { State, Posts } from '../types';
 import styled from 'styled-components/native'
-import { posts } from '../actions/posts';
+import { posts, reset } from '../actions/posts';
 import { getPosts } from '../reducers';
 import PostItem from '../components/PostItem';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
@@ -36,6 +36,7 @@ export interface MainProps {
     submitError: FormErrors<FormData, string>,
     postsList: Posts[],
     getPosts: () => any,
+    resetAll: () => any,
     navigation: NavigationScreenProp<NavigationState>,
 };
 
@@ -61,7 +62,7 @@ class Main extends React.Component<InjectedFormProps<MainForm, MainProps> & Main
 
         return (
             <SafeView>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=> this.props.resetAll()}>
                     <LogIn>
                         <LogInText>{"RESET"}</LogInText>
                     </LogIn>
@@ -101,6 +102,7 @@ const mapStateToProps = (state: State, ownProps: MainProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         getPosts: () => dispatch(posts()),
+        resetAll:() => dispatch(reset())
     }
 }
 

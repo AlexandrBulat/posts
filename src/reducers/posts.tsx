@@ -2,6 +2,7 @@ import { TypeKeys } from "../constants/TypeKeys";
 import { ActionTypes } from "../actions";
 import { State, NormalizedObjects, Posts } from "../types";
 import { combineReducers } from "redux";
+import mapValues from 'lodash/mapValues';
 
 const ids = (state: string[] = [], action: ActionTypes): string[] => {
     switch (action.type) {
@@ -19,6 +20,14 @@ const ids = (state: string[] = [], action: ActionTypes): string[] => {
 
 const byIds = (state: { [id: string]: Posts } = {}, action: ActionTypes): { [id: string]: Posts } => {
     switch (action.type) {
+        case TypeKeys.RESET:
+              const newArray = mapValues(state, (oldItem, id) => (
+                oldItem.pinned  ? { ...oldItem, pinned: false} : oldItem
+              ));
+                return { 
+                    ...state,
+                    ...newArray
+                }
         case TypeKeys.SET_PINNED:
             return {
                 ...state,
