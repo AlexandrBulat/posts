@@ -15,6 +15,7 @@ import { posts, reset } from '../actions/posts';
 import { getPosts } from '../reducers';
 import PostItem from '../components/PostItem';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
+import whiteLabelConfig from '../whiteLabel/WhiteLabelConfig';
 
 const LogIn = styled(ButtonBase)`
     margin-top: 15px;
@@ -27,6 +28,7 @@ const List = styled(FlatList).attrs({
     contentContainerStyle: {
         flexGrow: 1,
         marginTop: 16,
+        backgroundColor: whiteLabelConfig.PRIMARY_COLOR
 
     }
 })`
